@@ -1,5 +1,6 @@
 #data readin
-relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
+#relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
+relevantdata <- read.csv("MarchMadnessScrape 14-17 NCAAM.csv")
 
 attach(relevantdata)
 shooter = ifelse(Shooting.Team == "home",as.character(Home.Team), as.character(Away.Team))
@@ -78,7 +79,9 @@ offensiveplot = function(college, pivot, Year){
 }
 
 #data readin
-relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
+#relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
+relevantdata <- read.csv("MarchMadnessScrape 14-17 NCAAM.csv")
+
 
 attach(relevantdata)
 shooter = ifelse(Shooting.Team == "home",as.character(Home.Team), as.character(Away.Team))
@@ -149,7 +152,7 @@ defensiveplot = function(college, pivot, Year){
   for(i in 1:100)
   {
     newlist = c(newlist,as.numeric(surface[,i]))
-  }
+  } 
   
   mat2 = matrix(newlist, ncol = 100)
   
