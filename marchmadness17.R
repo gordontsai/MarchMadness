@@ -1,5 +1,6 @@
 #data readin
 #relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
+library("reshape")
 relevantdata <- read.csv("MarchMadnessScrape 14-17 NCAAM.csv")
 
 attach(relevantdata)
@@ -30,6 +31,9 @@ detach(relevantdata)
 gamefloorpoints = c()
 relevantdata = na.omit(relevantdata)
 
+####################Data formatting above
+
+###Computes sum of scores for each game 
 for(i in 1:length(relevantdata[,1]))
 {
   datacut1 = subset(relevantdata, gameID == gameID[i] & shooter == shooter[i])
@@ -47,36 +51,6 @@ relevantdata = cbind(relevantdata, percentscored)
 datacut1 = subset(relevantdata, pointscored != "0")
 pivot1 = aggregate(as.numeric(percentscored) ~ gameID + shooter + positionleft + positiontop + year, datacut1, FUN = sum)
 
-offensiveplot = function(college, pivot, Year){
-  tochart = subset(pivot, pivot$shooter == college & as.numeric(as.character(pivot$year)) == Year)
-  x = seq(1:100)
-  y = seq(1:100)
-  surface = data.frame(cbind(c(0),c(0),c(0)))
-  for(i in 1:length(x))
-    for(j in 1:length(y))
-    {
-      addrow = c()
-      relframe = subset(tochart, tochart$positionleft == i/100 & tochart$positiontop == j/100)
-      if(length(relframe[,1])>0)
-        addrow = c(i,j,as.numeric(as.character((relframe[,6]))))
-      else
-        addrow = c(i,j,0)
-      surface = rbind(surface, addrow)
-    }
-  surface = surface[-1,]
-  surface = cast(surface, X1~X2)
-  surface = surface[,-1]
-  colnames(surface) = 1:100
-  newlist = c()
-  for(i in 1:100)
-  {
-    newlist = c(newlist,as.numeric(surface[,i]))
-  }
-  
-  mat2 = matrix(newlist, ncol = 100)
-  
-  persp(x = 1:100, y = 1:100, mat2)
-}
 
 #data readin
 #relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
@@ -125,10 +99,10 @@ percentdefended = pointsdefended/gamefloordefense
 relevantdata = cbind(relevantdata, percentdefended)
 
 #need to update year to season
-datacut1 = subset(relevantdata, pointdefended != "0")
+datacut1 = subset(relevantdata, pointsdefended != "0")
 pivot1 = aggregate(as.numeric(percentdefended) ~ gameID + shooter + positionleft + positiontop + year, datacut1, FUN = sum)
 
-defensiveplot = function(college, pivot, Year){
+offensiveplot = function(college, pivot, Year){
   tochart = subset(pivot, pivot$shooter == college & as.numeric(as.character(pivot$year)) == Year)
   x = seq(1:100)
   y = seq(1:100)
@@ -152,12 +126,45 @@ defensiveplot = function(college, pivot, Year){
   for(i in 1:100)
   {
     newlist = c(newlist,as.numeric(surface[,i]))
+  }
+  
+  mat2 = matrix(newlist, ncol = 100)
+  
+  persp(x = 1:100, y = 1:100, mat2)
+}
+
+defensiveplot = function(college, pivot, Year){
+  tochart = subset(pivot, pivot$shooter == college & as.numeric(as.character(pivot$year)) == Year)
+  x = seq(1:100)
+  y = seq(1:100)
+  surface = data.frame(cbind(c(0),c(0),c(0)))
+  for(i in 1:length(x))
+    for(j in 1:length(y))
+    {
+      addrow = c()
+      relframe = subset(tochart, tochart$positionleft == i/100 & tochart$positiontop == j/100)
+      if(length(relframe[,1])>0)
+        addrow = c(i,j,as.numeric(as.character((relframe[,6]))))
+      else
+        addrow = c(i,j,0)
+      surface = rbind(surface, addrow)
+    }
+  surface = surface[-1,]
+  
+  surface = cast(surface, X1~X2)
+  surface = surface[,-1]
+  colnames(surface) = 1:100
+  newlist = c()
+  for(i in 1:100)
+  {
+    newlist = c(newlist,as.numeric(surface[,i]))
   } 
   
   mat2 = matrix(newlist, ncol = 100)
   
   persp(x = 1:100, y = 1:100, mat2)
 }
+
 
 offensiveplot("Butler", pivot1, 2016)
 defensiveplot("Butler", pivot1, 2016)
