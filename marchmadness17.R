@@ -1,25 +1,28 @@
 #data readin
 #relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
 library("reshape")
-relevantdata <- read.csv("MarchMadnessScrape 14-17 NCAAM.csv")
+library("dplyr")
+library("data.table")
+relevantdata <- fread("MarchMadnessScrape 14-17 NCAAM.csv")
 
 attach(relevantdata)
-shooter = ifelse(Shooting.Team == "home",as.character(Home.Team), as.character(Away.Team))
-defender = ifelse(Shooting.Team == "home",as.character(Away.Team), as.character(Home.Team))
+shooter = ifelse(`Shooting Team` == "home",as.character(`Home Team`), as.character('Away Team'))
+defender = ifelse(`Shooting Team` == "home",as.character('Away Team'), as.character('Home Team'))
 threepFlag = ifelse(as.numeric(regexpr("Three", Text)) > 0, 1, 0)
-pointscored = Shot.Status*(2+threepFlag)
+pointscored = `Shot Status`*(2+threepFlag)
 pointsdefended = 2 + threepFlag - pointscored
 assistflag = ifelse(as.numeric(regexpr("Assisted", Text)) > 0, 1, 0)
-homepositionleft = Left.Position
-homepositiontop = Top.Position
-awaypositionleft = 1-Left.Position
-awaypositiontop = 1-Top.Position
-positionleft = ifelse(Shooting.Team == "home", homepositionleft, awaypositionleft)
-positiontop = ifelse(Shooting.Team == "home", homepositiontop, awaypositiontop)
-gameID = paste(as.character(Date),Home.Team)
+homepositionleft = `Left Position`
+homepositiontop = `Top Position`
+awaypositionleft = 1-`Left Position`
+awaypositiontop = 1-`Top Position`
+positionleft = ifelse(`Shooting Team` == "home", homepositionleft, awaypositionleft)
+positiontop = ifelse(`Shooting Team` == "home", homepositiontop, awaypositiontop)
+gameID = paste(as.character(Date),'Home Team')
 year = substring(Date, nchar(as.character(Date))-4,nchar(as.character(Date)))
 
-relevantdata = data.frame(cbind(as.character(Date), year, shooter, defender, as.character(Home.Team), as.character(Away.Team), as.character(Shooter.Name), as.character(Shooter.ID), Shot.Number, Quarter, positionleft, positiontop, awaypositionleft, awaypositiontop, threepFlag, pointscored, pointsdefended, assistflag, as.character(Text)),gameID)
+relevantdata = data.table(as.character(Date), year, shooter, defender, as.character(`Home Team`), as.character(`Away Team`), as.character(`Shooter Name`), as.character(`Shooter ID`), `Shot Number`, Quarter, positionleft, positiontop, awaypositionleft, awaypositiontop, threepFlag, pointscored, pointsdefended, assistflag, as.character(Text),gameID)
+
 colnames(relevantdata)[1] = "Date"
 colnames(relevantdata)[5] = "Home"
 colnames(relevantdata)[6] = "Away"
@@ -34,6 +37,8 @@ relevantdata = na.omit(relevantdata)
 ####################Data formatting above
 
 ###Computes sum of scores for each game 
+relevantdata[]
+
 for(i in 1:length(relevantdata[,1]))
 {
   datacut1 = subset(relevantdata, gameID == gameID[i] & shooter == shooter[i])
@@ -58,22 +63,22 @@ relevantdata <- read.csv("MarchMadnessScrape 14-17 NCAAM.csv")
 
 
 attach(relevantdata)
-shooter = ifelse(Shooting.Team == "home",as.character(Home.Team), as.character(Away.Team))
-defender = ifelse(Shooting.Team == "home",as.character(Away.Team), as.character(Home.Team))
+shooter = ifelse(`Shooting Team` == "home",as.character('Home Team'), as.character('Away Team'))
+defender = ifelse(`Shooting Team` == "home",as.character('Away Team'), as.character('Home Team'))
 threepFlag = ifelse(as.numeric(regexpr("Three", Text)) > 0, 1, 0)
-pointscored = Shot.Status*(2+threepFlag)
+pointscored = 'Shot Status'*(2+threepFlag)
 pointsdefended = 2 + threepFlag - pointscored
 assistflag = ifelse(as.numeric(regexpr("Assisted", Text)) > 0, 1, 0)
-homepositionleft = Left.Position
-homepositiontop = Top.Position
-awaypositionleft = 1-Left.Position
-awaypositiontop = 1-Top.Position
-positionleft = ifelse(Shooting.Team == "home", homepositionleft, awaypositionleft)
-positiontop = ifelse(Shooting.Team == "home", homepositiontop, awaypositiontop)
-gameID = paste(as.character(Date),Home.Team)
+homepositionleft = `Left Position`
+homepositiontop = `Top Position`
+awaypositionleft = 1-`Left Position`
+awaypositiontop = 1-`Top Position`
+positionleft = ifelse(`Shooting Team` == "home", homepositionleft, awaypositionleft)
+positiontop = ifelse(`Shooting Team` == "home", homepositiontop, awaypositiontop)
+gameID = paste(as.character(Date),'Home Team')
 year = substring(Date, nchar(as.character(Date))-4,nchar(as.character(Date)))
 
-relevantdata = data.frame(cbind(as.character(Date), year, shooter, defender, as.character(Home.Team), as.character(Away.Team), as.character(Shooter.Name), as.character(Shooter.ID), Shot.Number, Quarter, positionleft, positiontop, awaypositionleft, awaypositiontop, threepFlag, pointscored, pointsdefended, assistflag, as.character(Text)),gameID)
+relevantdata = data.frame(as.character(Date), year, shooter, defender, as.character(`Home Team`), as.character(`Away Team`), as.character(`Shooter Name`), as.character(`Shooter ID`), `Shot Number`, Quarter, positionleft, positiontop, awaypositionleft, awaypositiontop, threepFlag, pointscored, pointsdefended, assistflag, as.character(Text),gameID)
 colnames(relevantdata)[1] = "Date"
 colnames(relevantdata)[5] = "Home"
 colnames(relevantdata)[6] = "Away"
