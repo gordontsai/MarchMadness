@@ -35,6 +35,14 @@ gamefloorpoints = c()
 relevantdata = na.omit(relevantdata)
 
 ####################Data formatting above
+scores = as.numeric(relevantdata$pointscored)
+relevantdata$pointscored = ifelse(scores == 1, 0, scores)
+#DT[,.(V4.Sum = sum(V4)),by=.(V1,V2)]
+test = relevantdata[,.(pointscored.Sum = sum(pointscored)),by=.(gameID,shooter)]
+percentscored = pointscored/gamefloorpoints
+relevantdata = cbind(relevantdata, percentscored)
+
+
 
 ###Computes sum of scores for each game 
 relevantdata[]
