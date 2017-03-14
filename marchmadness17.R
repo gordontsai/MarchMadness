@@ -3,7 +3,7 @@
 library("reshape")
 library("dplyr")
 library("data.table")
-relevantdata <- fread("MarchMadnessScrape 14-17 NCAAM.csv")
+relevantdata <- fread("MarchMadnessScrape 20170309gt.csv")
 
 attach(relevantdata)
 shooter = ifelse(`Shooting Team` == "home",as.character(`Home Team`), as.character('Away Team'))
@@ -38,27 +38,27 @@ relevantdata = na.omit(relevantdata)
 scores = as.numeric(relevantdata$pointscored)
 relevantdata$pointscored = ifelse(scores == 1, 0, scores)
 #DT[,.(V4.Sum = sum(V4)),by=.(V1,V2)]
-test = relevantdata[,.(pointscored.Sum = sum(pointscored)),by=.(gameID,shooter)]
-percentscored = pointscored/gamefloorpoints
+#test = relevantdata[,print(names(.SD)), by = .(gameID,shooter)]
+test = relevantdata[,lapply(.SD, function(x) x/sum(x)), by = .(gameID,shooter),.SDcols = "pointscored"]
+#test = relevantdata[,.(pointscored.Sum = sum(pointscored)),by=.(gameID,shooter)]
+#percentscored = pointscored/gamefloorpoints
+percentscored = test$pointscored
 relevantdata = cbind(relevantdata, percentscored)
 
 
 
 ###Computes sum of scores for each game 
-relevantdata[]
+#for(i in 1:length(relevantdata[,1]))
+#{
+#  datacut1 = subset(relevantdata, gameID == gameID[i] & shooter == shooter[i])
+#  scores = as.numeric(datacut1$pointscored)
+#  scores = ifelse(scores == 1, 0, scores)
+#  gamefloorpoints = c(gamefloorpoints, sum(scores))
+#  print(length(gamefloorpoints)) #status update
+#}
+#percentscored = pointscored/gamefloorpoints
+#relevantdata = cbind(relevantdata, percentscored)
 
-for(i in 1:length(relevantdata[,1]))
-{
-  datacut1 = subset(relevantdata, gameID == gameID[i] & shooter == shooter[i])
-  scores = as.numeric(datacut1$pointscored)
-  scores = ifelse(scores == 1, 0, scores)
-  gamefloorpoints = c(gamefloorpoints, sum(scores))
-  print(length(gamefloorpoints)) #status update
-}
-
-percentscored = pointscored/gamefloorpoints
-
-relevantdata = cbind(relevantdata, percentscored)
 
 #need to update year to season
 datacut1 = subset(relevantdata, pointscored != "0")
@@ -67,8 +67,7 @@ pivot1 = aggregate(as.numeric(percentscored) ~ gameID + shooter + positionleft +
 
 #data readin
 #relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
-relevantdata <- read.csv("MarchMadnessScrape 14-17 NCAAM.csv")
-
+relevantdata <- fread("MarchMadnessScrape 20170309gt.csv")
 
 attach(relevantdata)
 shooter = ifelse(`Shooting Team` == "home",as.character('Home Team'), as.character('Away Team'))
@@ -98,18 +97,16 @@ detach(relevantdata)
 gamefloordefense = c()
 relevantdata = na.omit(relevantdata)
 
-for(i in 1:length(relevantdata[,1]))
-{
-  datacut1 = subset(relevantdata, gameID == gameID[i] & defender == defender[i])
-  scores = as.numeric(datacut1$pointsdefended)
-  scores = ifelse(scores == 1, 0, scores)
-  gamefloordefense = c(gamefloordefense, sum(scores))
-  print(length(gamefloordefense)) #status update
-}
-
-percentdefended = pointsdefended/gamefloordefense
-
-relevantdata = cbind(relevantdata, percentdefended)
+#for(i in 1:length(relevantdata[,1]))
+#{
+#  datacut1 = subset(relevantdata, gameID == gameID[i] & defender == defender[i])
+#  scores = as.numeric(datacut1$pointsdefended)
+#  scores = ifelse(scores == 1, 0, scores)
+#  gamefloordefense = c(gamefloordefense, sum(scores))
+#  print(length(gamefloordefense)) #status update
+#}
+#percentdefended = pointsdefended/gamefloordefense
+#relevantdata = cbind(relevantdata, percentdefended)
 
 #need to update year to season
 datacut1 = subset(relevantdata, pointsdefended != "0")
