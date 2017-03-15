@@ -36,7 +36,9 @@ for(i in 1:length(relevantdata[,1]))
   scores = as.numeric(datacut1$pointscored)
   scores = ifelse(scores == 1, 0, scores)
   gamefloorpoints = c(gamefloorpoints, sum(scores))
-  print(length(gamefloorpoints)) #status update
+  if (length(gamefloorpoints) %% 1000 == 0 ){
+    print(length(gamefloorpoints)) #status update
+  }
 }
 
 percentscored = pointscored/gamefloorpoints
@@ -79,7 +81,8 @@ offensiveplot = function(college, pivot, Year){
 }
 
 #data readin
-relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
+#relevantdata <- read.csv("~/Personal/NCAAMM2017/1417data.csv")
+relevantdata <- read.csv("MarchMadnessScrape 20170309gt.csv")
 
 attach(relevantdata)
 shooter = ifelse(Shooting.Team == "home",as.character(Home.Team), as.character(Away.Team))
