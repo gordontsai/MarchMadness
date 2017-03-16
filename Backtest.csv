@@ -1,0 +1,64 @@
+Team One,Team Two,Winner Actual,MatchUp,Winner Predicted,Normalized Difference
+Kansas,Austin Peay,Kansas,Kansas vs. Austin Peay,Kansas,1.667980243
+Colorado,Connecticut,Connecticut,Colorado vs. Connecticut,Connecticut,0.715615837
+Maryland,South Dakota State,Maryland,Maryland vs. South Dakota State,Maryland,1.661009369
+California,Hawai'i,Hawai'i,California vs. Hawai'i,California,0.947613379
+Arizona,Wichita State,Wichita State,Arizona vs. Wichita State,Arizona,0.301502427
+Miami,Buffalo,Miami,Miami vs. Buffalo,Miami,1.163449405
+Iowa,Temple,Iowa,Iowa vs. Temple,Iowa,0.091913666
+Villanova,UNC Asheville,Villanova,Villanova vs. UNC Asheville,Villanova,1.642772673
+Oregon,Holy Cross,Oregon,Oregon vs. Holy Cross,Oregon,1.534652455
+Saint Joseph's,Cincinnati,Saint Joseph's,Saint Joseph's vs. Cincinnati,Cincinnati,0.871020332
+Baylor,Yale,Yale,Baylor vs. Yale,Baylor,1.412223684
+Duke,UNC Wilmington,Duke,Duke vs. UNC Wilmington,Duke,1.931624629
+Texas,Northern Iowa,Northern Iowa,Texas vs. Northern Iowa,Texas,0.557188442
+Texas A&M;,Green Bay,Texas A&M;,Texas A&M; vs. Green Bay,Texas A&M;,1.13801978
+Oregon,VCU,VCU,Oregon vs. VCU,Oregon,0.286903762
+Oklahoma,CSU Bakersfield,Oklahoma,Oklahoma vs. CSU Bakersfield,Oklahoma,1.795236824
+North Carolina,Florida Gulf Coast,North Carolina,North Carolina vs. Florida Gulf Coast,North Carolina,1.879786992
+USC,Providence,Providence,USC vs. Providence,Providence,0.229313179
+Indiana,Chattanooga,Indiana,Indiana vs. Chattanooga,Indiana,1.562211107
+Kentucky,Stony Brook,Kentucky,Kentucky vs. Stony Brook,Kentucky,1.729596594
+Notre Dame,Michigan,Notre Dame,Notre Dame vs. Michigan,Notre Dame,0.033358173
+West Virginia,Stephen F. Austin,Stephen F. Austin,West Virginia vs. Stephen F. Austin,West Virginia,1.431962464
+Wisconsin,Pittsburgh,Wisconsin,Wisconsin vs. Pittsburgh,Wisconsin,0.384205668
+Xavier,Weber State,Xavier,Xavier vs. Weber State,Xavier,1.511153995
+Virginia,Hampton,Virginia,Virginia vs. Hampton,Virginia,1.532796667
+Texas Tech,Butler,Butler,Texas Tech vs. Butler,Texas Tech,0.038971234
+Purdue,Little Rock,Little Rock,Purdue vs. Little Rock,Purdue,1.645092616
+Iowa State,Iona,Iowa State,Iowa State vs. Iona,Iowa State,1.142188905
+Seton Hall,Gonzaga,Gonzaga,Seton Hall vs. Gonzaga,Gonzaga,0.435824348
+Utah,Fresno State,Utah,Utah vs. Fresno State,Utah,1.200452676
+Dayton,Syracuse,Syracuse,Dayton vs. Syracuse,Syracuse,0.717673485
+Michigan,Middle Tennessee,Middle Tennessee,Michigan vs. Middle Tennessee,Michigan,1.540087164
+Kansas,Connecticut,Kansas,Kansas vs. Connecticut,Kansas,0.097131053
+Maryland,Hawai'i,Maryland,Maryland vs. California,Maryland,0.514825586
+Wichita State,Miami,Miami,Arizona vs. Miami,Arizona,0.1793403
+Iowa,Villanova,Villanova,Iowa vs. Villanova,Villanova,0.421990603
+Oregon,Saint Joseph's,Oregon,Oregon vs. Cincinnati,Oregon,0.346597222
+Yale,Duke,Duke,Baylor vs. Duke,Duke,0.144949329
+Northern Iowa,Texas A&M;,Texas A&M;,Texas vs. Texas A&M;,Texas,0.173513376
+VCU,Oklahoma,Oklahoma,Oregon vs. Oklahoma,Oklahoma,0.128029213
+North Carolina,Providence,North Carolina,North Carolina vs. Providence,North Carolina,0.394636021
+Indiana,Kentucky,Indiana,Indiana vs. Kentucky,Kentucky,0.394682852
+Notre Dame,Stephen F. Austin,Notre Dame,Notre Dame vs. West Virginia,West Virginia,0.022333308
+Wisconsin,Xavier,Wisconsin,Wisconsin vs. Xavier,Wisconsin,0.311132235
+Virginia,Butler,Virginia,Virginia vs. Texas Tech,Virginia,0.379224601
+Little Rock,Iowa State,Iowa State,Purdue vs. Iowa State,Iowa State,0.113187435
+Gonzaga,Utah,Gonzaga,Gonzaga vs. Utah,Utah,0.19408937
+Syracuse,Middle Tennessee,Syracuse,Syracuse vs. Michigan,Syracuse,0.021927413
+Kansas,Maryland,Kansas,Kansas vs. Maryland,Kansas,0.014855132
+Miami,Villanova,Villanova,Arizona vs. Villanova,Villanova,0.043145366
+Oregon,Duke,Oregon,Oregon vs. Duke,Duke,0.248216619
+Texas A&M;,Oklahoma,Oklahoma,Texas vs. Oklahoma,Oklahoma,0.085916471
+North Carolina,Indiana,North Carolina,North Carolina vs. Kentucky,Kentucky,0.009183395
+Notre Dame,Wisconsin,Notre Dame,West Virginia vs. Wisconsin,Wisconsin,0.148225316
+Virginia,Iowa State,Virginia,Virginia vs. Iowa State,Virginia,0.196397175
+Gonzaga,Syracuse,Syracuse,Utah vs. Syracuse,Utah,0.108918995
+Kansas,Villanova,Villanova,Kansas vs. Villanova,Villanova,0.029122635
+Oregon,Oklahoma,Oklahoma,Duke vs. Oklahoma,Duke,0.120187405
+North Carolina,Notre Dame,North Carolina,Kentucky vs. Wisconsin,Kentucky,0.133730638
+Virginia,Syracuse,Syracuse,Virginia vs. Utah,Virginia,0.195328865
+Villanova,Oklahoma,Villanova,Villanova vs. Duke,Duke,0.054919682
+North Carolina,Syracuse,North Carolina,Kentucky vs. Virginia,Kentucky,0.011472163
+Villanova,North Carolina,Villanova,Duke vs. Kentucky,Kentucky,0.030128112

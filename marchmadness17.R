@@ -2,8 +2,28 @@
 library("reshape")
 library("dplyr")
 library("data.table")
+options(warn=-1)
 
 ##############################################Helper functions
+average_difference <- function(teams, simsize){
+  difference_sample = as.numeric(simsize)
+  for(i in 1:simsize) {
+    if (i%%100 == 0){
+      print(i)
+    }
+    teamOne = sample(teams,1,replace = TRUE)
+    teamTwo = sample(teams,1,replace = TRUE)
+    while (teamOne == teamTwo) {
+      teamOne = sample(teams,1,replace = TRUE)
+      teamTwo = sample(teams,1,replace = TRUE)
+    }
+    output = match(teamOne,teamTwo)
+    difference_sample[i] = output[3]
+  }
+  
+  return(mean(as.double(difference_sample)))
+}
+
 match <- function(teamOne, teamTwo){
   a = grid_sum(datacut1, teamOne,'offense')
   b = grid_sum(datacut2,teamTwo,'defense')
@@ -11,10 +31,12 @@ match <- function(teamOne, teamTwo){
   e = grid_sum(datacut2, teamOne,'defense')
   resultOne = sum(a-b)
   resultTwo = sum(d-e)
+  result = abs(resultTwo-resultOne)
+  matchup = paste(teamOne,"vs.",teamTwo)
   if (resultOne> resultTwo){
-    return(teamOne)
+    return(c(matchup, teamOne, result))
   } else if (resultTwo > resultOne) {
-    return(teamTwo)
+    return(c(matchup, teamTwo, result))
   }
 }
 
@@ -118,13 +140,18 @@ grid_sum <- function(datacut,team, position) { #position is shooter or defender
 }
 
 ######################################################################
-#relevantdata <- fread("MarchMadnessScrape 20170309gt.csv")
+file1 = "MarchMadnessScrape 2015-2016.csv" #Data source feed for relevant data, play by play shot data
+file2 = "MarchMadnessFirstRound 2015-2016.csv" #input list of First Round Bracket
+file3 = "MarchMadness 2015-2016 Correct Bracket.csv" #correct file to cross validate only used for backtesting
+
+#relevantdata <- fread(file1)
 #teams = unique(c(unique(relevantdata$`Home Team`), unique(relevantdata$`Away Team`)))
 #write.csv(teams,"TeamList.csv", row.names = FALSE)
 
-relevantdata <- fread("MarchMadnessScrape 20170309gt.csv")
+relevantdata <- fread(file1)
 relevantdata = cbind(relevantdata,rep(1,nrow(relevantdata)))
 colnames(relevantdata)[length(relevantdata)]  = "Shot Count"
+teams = unique(c(unique(relevantdata$`Home Team`), unique(relevantdata$`Away Team`)))
 
 attach(relevantdata)
 shooter = ifelse(`Shooting Team` == "home",as.character(`Home Team`), as.character(`Away Team`))
@@ -171,12 +198,8 @@ relevantdata = merge(relevantdata, temp_frequency, by = c("gameID","shooter","po
 datacut1 = subset(relevantdata, pointscored != "0")
 datacut1$ExpectedShotValue = datacut1$percentscored*datacut1$shotFrequency
 
-
-
-
-
 #data readin
-relevantdata <- fread("MarchMadnessScrape 20170309gt.csv")
+relevantdata <- fread(file1)
 relevantdata = cbind(relevantdata,rep(1,nrow(relevantdata)))
 colnames(relevantdata)[length(relevantdata)]  = "Shot Count"
 
@@ -224,3 +247,53 @@ relevantdata = merge(relevantdata, temp_frequency, by = c("gameID","defender","p
 #need to update year to season
 datacut2 = subset(relevantdata, pointsdefended != "0")
 datacut2$ExpectedShotValue = datacut2$percentdefended*datacut2$shotFrequency
+
+
+#Simulate for average differneces
+#difference_sample = average_difference(teams,1000)
+#difference_sample = 23.5184 #from 1000 runs of 2014:2017 data
+difference_sample = 24.69855 #from 1000 runs of 2014:2017 data
+
+team_matchups = read.csv(file2)
+team_matchups$Team.One = as.character(team_matchups$Team.One)
+team_matchups$Team.Two = as.character(team_matchups$Team.Two)
+match_up = c(numeric(nrow(team_matchups)))
+winner = c(numeric(nrow(team_matchups)))
+difference = c(numeric(nrow(team_matchups)))
+
+for (i in 1:nrow(team_matchups)){
+  output = match(team_matchups$Team.One[i],team_matchups$Team.Two[i])
+  match_up[i] = output[1]
+  winner[i] = output[2]
+  difference[i] = output[3]
+}
+
+teamOne = winner[seq(1,length(winner),2)]
+teamTwo = winner[seq(2,length(winner),2)]
+winner_temp = as.character(vector(length = 2))
+
+while (length(winner_temp)>1) {
+  match_up_temp = c(numeric(length(teamOne)))
+  winner_temp = c(numeric(length(teamOne)))
+  difference_temp = c(length(nrow(teamOne)))
+  for (i in 1:length(teamOne)){
+    output = match(teamOne[i],teamTwo[i])
+    match_up_temp[i] = output[1]
+    winner_temp[i] = output[2]
+    difference_temp[i] = output[3]
+  }
+  teamOne = winner_temp[seq(1,ifelse(length(winner_temp)==1,1,length(winner_temp)),2)]
+  teamTwo = winner_temp[seq(ifelse(length(winner_temp)==1,1,2),ifelse(length(winner_temp)==1,2,length(winner_temp)),ifelse(length(winner_temp)==1,1,2))]
+  match_up = c(match_up, match_up_temp)
+  winner = c(winner, winner_temp)
+  difference = c(difference,difference_temp)
+  }
+
+
+df = data.frame(match_up,winner,as.double(difference)/difference_sample)
+colnames(df) = c("MatchUp","Winner","Normalized Difference")
+
+
+#write.csv(df,'BracketResults.csv', row.names = FALSE)
+
+
