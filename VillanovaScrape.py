@@ -5,6 +5,7 @@
 
 
 import pprint  
+import os
 import math
 import numpy as np
 import numpy.random as npr
@@ -53,7 +54,7 @@ url = 'http://www.espn.com/mens-college-basketball/playbyplay?gameId='
 # pageend = 400919999
 output = pd.DataFrame()
 
-startdate = 20170126 # have to start 2 before your actual start date because of coding prep
+startdate = 20150126 # have to start 2 before your actual start date because of coding prep
 NBAorNCAAM = 'NCAAM'
 
 
@@ -352,4 +353,10 @@ print("Done")
 
 #############################Write Dataframe to .csv
 #output.to_csv('C:\Users\gordon.tsai\Google Drive\MarchMadnessScrape.csv', sep = ',', encoding = 'utf-8' , index = False)
+try:
+  output.to_csv(os.path.join(os.path.join(os.getcwd(),'output'),'marchmadness'+str(startdate)+'.csv'), index = False)
+  print('first try worked')
+except:
+  output.to_csv(os.path.join(os.path.join(os.getcwd(),'output'),'marchmadness'+str(startdate)+'.csv'), sep = ',', encoding = 'utf-8' , index = False)
+  print('second except worked')
 
